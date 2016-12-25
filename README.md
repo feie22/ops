@@ -1,0 +1,2 @@
+# ops
+python shell scipirt
