@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+test_file = sys.argv[1]
+id_file = sys.argv[2]
+pred_file = sys.argv[3]
+
+print "splitting <%s> to <%s> and <%s>" %(test_file, id_file, pred_file)
+
+if not os.path.exists(test_file):
+    print "Split error: File %s not found." % test_file
+    sys.exit(1)
+
+if os.path.exists(id_file):
+    print "Split error: File %s already exists." % id_file
+    sys.exit(1)
+
+if os.path.exists(pred_file):
+    print "Split error: File %s already exists." % pred_file
+    sys.exit(1)
+
+fid = open(id_file, "w")
+fpred = open(pred_file, "w")
+
+if os.path.isdir(test_file):
+    files=os.listdir(test_file)
+    files.sort()
+    for file_name in files:
+        if not file_name.startswith("part"):
+            continue
+
+        file_path = "%s/%s" % (test_file, file_name)
+        ftest = open(file_path)
+        line = ftest.readline()
+        while line: 
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            pos = line.index(' ')
+            id = line[0:pos]
+            tail = line[pos:]
+            fid.write("%s\n" %id)
+            fpred.write("%s\n" %tail)
+            line = ftest.readline() 
+        ftest.close()  
+else:
+    ftest = open(test_file)
+    line = ftest.readline()
+    while line: 
+        line = line.strip()
+        if len(line) == 0:
+            continue
+    
+        pos = line.index(' ')
+        id = line[0:pos]
+        tail = line[pos:]
+        fid.write("%s\n" %id)
+        fpred.write("%s\n" %tail)
+        line = ftest.readline() 
+
+    ftest.close()  
+
+fpred.close
+fid.close
+
+sys.exit(0)

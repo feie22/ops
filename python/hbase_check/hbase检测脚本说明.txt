@@ -1,0 +1,42 @@
+1.执行主机：salt-master 172.19.185.84
+
+2.目录及文件说明：
+	/job/script/hbase_check.py  脚本文件
+	/job/script/cluster_name.txt  待检查的集群名称文件（脚本执行时读取）
+	/job/git/hbase 				git上克隆下来的hbase集群配置文件
+	/job/log					自动检测后生成的日志文件
+
+3.脚本原理：
+	1）从cluster_name.txt获取集群名称
+	2）根据集群名称，利用服务器管理API获取集群IP
+	3）根据获取的集群IP，利用salt接口执行检查命令，获取执行结果
+	4）根据返回结果，判断是否存在问题，打出日志信息
+
+4.脚本检查项：
+	配置文件与git上文件的一致性
+	系统日志messages文件
+	系统日志dmesg文件
+	系统平均负载
+	磁盘使用率
+	磁盘inode使用率
+	内存使用率
+	swap使用率
+	网卡带宽制式
+	连接数
+	僵尸进程
+	是否存在坏盘
+	服务启动状态（crond  snmpd gmond sshd rsyslog）
+	软件包是否安装sysstat
+
+5.crontab配置：每天10点，18点各执行一次（0 10,18 * * * /usr/bin/python /job/script/hbase_check.py）
+
+6.日志示例
+
+	diana: 2016-04-28#20 ERROR:个别服务器配置文件不一致或个别服务器返回异常（/job/log/diana/2016-04-28#20/md5.log）
+	diana: 2016-04-28#20 ERROR:系统日志messages有报错信息或个别服务器返回异常（/job/log/diana/2016-04-28#20/message.log）
+	diana: 2016-04-28#20 ERROR:系统日志dmesg有报错信息或个别服务器返回异常（/job/log/diana/2016-04-28#20/dmesg.log）
+	diana: 2016-04-28#20 ERROR:个别服务器磁盘使用率异常或个别服务器返回异常（/job/log/diana/2016-04-28#20/disk.log）
+	diana: 2016-04-28#20 ERROR:个别服务器磁盘inode使用率异常或个别服务器返回异常（/job/log/diana/2016-04-28#20/inode.log）
+	diana: 2016-04-28#20 ERROR:个别服务器存在坏盘或返回异常（/job/log/diana/2016-04-28#20/bad_disk.log）
+	athene: 2016-04-28#20 ERROR:个别服务器配置文件不一致或个别服务器返回异常（/job/log/athene/2016-04-28#20/md5.log）
+	athene: 2016-04-28#20 ERROR:系统日志dmesg有报错信息或个别服务器返回异常（/job/log/athene/2016-04-28#20/dmesg.log）

@@ -1,0 +1,4 @@
+sh: -c: line 2: syntax error near unexpected token `('
+sh: -c: line 2: `awk: cmd. line:1: fatal: cannot open file `-FM' for reading (No such file or directory)'
+sh: -c: line 2: syntax error near unexpected token `('
+sh: -c: line 2: `awk: cmd. line:1: fatal: cannot open file `-FM' for reading (No such file or directory)'

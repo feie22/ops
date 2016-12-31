@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="53d9be9f-7666-49f2-b80e-0437cc6a34aa" name="137-sync" url="http://172.16.159.137">
+        <fileTransfer host="172.16.159.137" port="80" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="80" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

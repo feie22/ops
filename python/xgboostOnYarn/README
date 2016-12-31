@@ -1,0 +1,21 @@
+该软件包主要对xgboost on yarn做了优化改进和封装，以更方便、友好、高效的使用xgboost，去处理大规模的数据量。
+
+
+优化点
+1、友好地将xgboost内核的c++端的出错信息，输出到用户使用的客户端;
+2、增加出错提示，如果运行出错，会友好地提示用户出错所在的位置;
+3、增加退出机制，如果运行过程中出现不可重试错误，能够及时退出程序，不会一直等待;
+4、优化xgboost on yarn的预测功能，以能够并行预测，并将预测结果保存；
+5、优化xgboost on yarn的dump功能，以使dump在yarn申请多节点时正常运行，并保存结果；
+6、增加特征重要性功能，并按 每个特征的gain/所有特征gain的和 降序排列； 
+
+
+怎么使用xgboost on yarn
+我们已提供针对不同任务的运行脚本，可见yarn-script目录下
+1 yarn-train.sh 训练xgboost的运行脚本
+2 yarn-pred.sh 预测的运行脚本
+3 yarn-dump.sh dump 模型运行脚本
+ parameters.conf 算法配置文件在以上三个脚本中使用
+4 get_feature_importance 特征重要性可执行文件，需要输入两个参数，第一个参数为dump文件(所以需要先执行yarn-dump.sh,
+  并使dump_stats=1)，第二个参数为特征重要性保存文件（本地路径），使用可参考get_feature_importance_demo.sh
+

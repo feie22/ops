@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -k http://172.19.185.83:8181 -H "Accept: application/x-yaml" -H "X-Auth-Token: 4ce3c3ef49f69cf056901209fab13cd80654ad85" -d client=local -d tgt='172.22.99.99' -d fun='refresh_conf.frozenFairscheduler'

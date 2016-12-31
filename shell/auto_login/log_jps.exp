@@ -1,0 +1,9 @@
+#!/usr/bin/expect -f  
+ set password 0o0o0o0o
+ set timeout 3  
+ spawn ssh wangdelong5@jps.jd.com -p 80
+ expect {  
+ "*password:" { send "$password\r"; exp_continue }  
+ "*ID>:" { send "1\r"}
+ }  
+ interact  

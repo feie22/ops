@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f  
+ log_user 2
+ set ip [lindex $argv 0 ]
+ set port [lindex $argv 1 ]
+ set password [lindex $argv 2 ]
+ set timeout 60  
+ spawn ssh root@$ip -p $port 
+ expect {  
+ "*yes/no" { send "yes\r"; exp_continue}  
+ "*password:" { send "$password\r" }  
+ }  
+ expect "#*"
+ send "if grep -q /data /etc/fstab\n"
+ send "then\n"
+ send "uuid=notneed\n"
+ send "echo /data already in fstab\n"
+ send "else\n" 
+ send "uuid=`mkfs.ext3 /dev/vdb > /dev/null 2>&1 && blkid /dev/vdb | awk '{print \$2}'`\n"
+ send "fi\n"
+ send "if \[ \${uuid:0:4} = UUID \]\n"
+ send "then\n"
+ send "echo \$uuid /data ext3 noatime,acl,user_xattr 1 0 >> /etc/fstab\n"
+ send "mount -a\n"
+ send "else\n"
+ send "echo mkfs failed\n"
+ send "fi\n"
+ send  "exit\n"  
+ expect eof  

@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+def part_only(x):
+    return x.startswith("part")
+
+id_file = sys.argv[1]
+pred_path = sys.argv[2]
+pred_result = sys.argv[3]
+
+print "merging <%s> and <%s> into <%s>" % (id_file, pred_path, pred_result)
+
+if not os.path.exists(id_file):
+    print "Merge error: File %s not found." % id_file
+    sys.exit(1)
+
+if not os.path.exists(pred_path):
+    print "Merge error: folder %s not found." % pred_path
+    sys.exit(1)
+
+if not os.path.isdir(pred_path):
+    print "Merge error: %s is not a folder." % pred_path
+    sys.exit(1)
+
+if os.path.exists(pred_result):
+    print "Merge error: File %s already exists." % pred_result
+    sys.exit(1)
+
+fid = open(id_file)
+fresult = open(pred_result, "w")
+
+files=os.listdir(pred_path)
+files=filter(part_only, files)
+files.sort(key= lambda x:int(x[5:]))
+for file_name in files:
+    file_path = "%s/%s" % (pred_path, file_name)
+    f = open(file_path)
+    line = f.readline()
+    while line: 
+        line = line.strip()
+        if len(line) == 0:
+            continue
+        
+        id_line = fid.readline()
+        if (id_line == ''):
+            close(f)
+            close(fid)
+            exit(1)
+        id_line = id_line.strip()
+        fresult.write("%s %s\n" % (id_line, line))
+
+        line = f.readline() 
+    f.close()  
+
+fresult.close
+fid.close
+
